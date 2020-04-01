@@ -13,24 +13,55 @@ import static org.hamcrest.Matchers.equalTo;
 @QuarkusTest
 class TestResultResourceTest {
 
+    public static final String TEST_RESULT_JSON_BODY = "{ \"hash\" : \"4711\", \"status\": \"PENDING\", \"contact\" : \"foo@bar.com\", \"notified\" : \"false\"}";
+
     @BeforeEach
     public void cleanup() {
         TestResult.deleteAll();
     }
 
     @Test
-    public void testPostEndpoint() {
+    public void testPostEndpointWithValidUser() {
         given()
-                .body("{ \"hash\" : \"4711\", \"status\": \"PENDING\", \"contact\" : \"foo@bar.com\", \"notified\" : \"false\"}")
+                .body(TEST_RESULT_JSON_BODY)
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
                 .pathParam("testId", "4711")
-
+                .auth().basic("user", "userpass")
                 .when()
                 .post("/tests/{testId}")
 
                 .then()
                 .statusCode(204);
+    }
+
+    @Test
+    public void testPostEndpointWithInvalidPassword() {
+        given()
+                .body(TEST_RESULT_JSON_BODY)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .pathParam("testId", "4711")
+                .auth().basic("user", "userpass-invalid")
+                .when()
+                .post("/tests/{testId}")
+
+                .then()
+                .statusCode(401);
+    }
+
+    @Test
+    public void testPostEndpointWithoutAuthentication() {
+        given()
+                .body(TEST_RESULT_JSON_BODY)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .pathParam("testId", "4711")
+                .when()
+                .post("/tests/{testId}")
+
+                .then()
+                .statusCode(401);
     }
 
     @Test

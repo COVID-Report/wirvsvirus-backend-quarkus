@@ -1,5 +1,6 @@
 package de.wirvsvirus.testresult;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -30,6 +31,7 @@ public class TestResultResource {
     
     @POST
     @Path("/{testId}")
+    @RolesAllowed("Post")
     public void addTestResult(@PathParam("testId") String testId,TestResult testResult) {
     	System.out.println("called");
     	testResult.setHash(testId);
