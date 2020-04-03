@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import de.wirvsvirus.testresult.database.TestResult;
+import de.wirvsvirus.testresult.exception.FalseInformedException;
 import de.wirvsvirus.testresult.service.TestResultService;
 import lombok.AllArgsConstructor;
 
@@ -20,21 +21,20 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class TestResultResource {
 
-	@Inject
-	TestResultService service;
-	
+    @Inject
+    TestResultService service;
+
     @GET
     @Path("/{testId}")
     public TestResult getResult(@PathParam("testId") String testId) {
-    	return service.getTestResult(testId);
+        return service.getTestResult(testId);
     }
-    
+
     @POST
     @Path("/{testId}")
     @RolesAllowed("Post")
-    public void addTestResult(@PathParam("testId") String testId,TestResult testResult) {
-    	System.out.println("called");
-    	testResult.setHash(testId);
-    	testResult.persist();
+    public TestResult addTestResult(@PathParam("testId") String testId, TestResult testResult) throws FalseInformedException {
+        testResult.setHash(testId);
+        return service.updateTestResult(testResult);
     }
 }
