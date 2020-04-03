@@ -3,6 +3,7 @@ package de.wirvsvirus.testresult;
 import de.wirvsvirus.testresult.database.TestResult;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,14 +12,10 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 @QuarkusTest
-class TestResultResourceTest {
+class TestResultResourceAuthenticationIT extends BaseIntegrationTest {
 
     public static final String TEST_RESULT_JSON_BODY = "{ \"hash\" : \"4711\", \"status\": \"PENDING\", \"contact\" : \"foo@bar.com\", \"notified\" : \"false\"}";
 
-    @BeforeEach
-    public void cleanup() {
-        TestResult.deleteAll();
-    }
 
     @Test
     public void testPostEndpointWithValidUser() {
@@ -27,12 +24,12 @@ class TestResultResourceTest {
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
                 .pathParam("testId", "4711")
-                .auth().basic("user", "userpass")
+                .auth().basic(POST_USER, POST_USER_PASS)
                 .when()
                 .post("/tests/{testId}")
 
                 .then()
-                .statusCode(204);
+                .statusCode(HttpStatus.SC_OK);
     }
 
     @Test
@@ -47,7 +44,7 @@ class TestResultResourceTest {
                 .post("/tests/{testId}")
 
                 .then()
-                .statusCode(401);
+                .statusCode(HttpStatus.SC_UNAUTHORIZED);
     }
 
     @Test
@@ -61,29 +58,6 @@ class TestResultResourceTest {
                 .post("/tests/{testId}")
 
                 .then()
-                .statusCode(401);
+                .statusCode(HttpStatus.SC_UNAUTHORIZED);
     }
-
-    @Test
-    public void testGetEndpoint() {
-        TestResult savedResult = new TestResult();
-        savedResult.setHash("f00b44");
-        savedResult.setContact("foo@bar.de");
-        savedResult.setStatus(NEGATIVE);
-        savedResult.setNotified(false);
-        savedResult.persist();
-
-        given()
-                .accept(ContentType.JSON)
-                .pathParam("testId", "f00b44")
-
-                .when()
-                .get("/tests/{testId}")
-
-                .then()
-                .statusCode(200)
-                .body("contact", equalTo("foo@bar.de"))
-                .body("status", equalTo("NEGATIVE"));
-    }
-
 }
