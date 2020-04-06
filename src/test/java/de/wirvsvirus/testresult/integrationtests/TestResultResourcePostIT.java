@@ -11,7 +11,6 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
 
 @QuarkusTest
 class TestResultResourcePostIT extends IntegrationTestBase {
@@ -37,7 +36,7 @@ class TestResultResourcePostIT extends IntegrationTestBase {
                 .statusCode(HttpStatus.SC_OK)
                 .body("id", equalTo(TEST_HASH))
                 .body("status", equalTo("NEGATIVE"))
-                .body("contact",  nullValue())
+                .body("contact",  equalTo("12345"))
                 .body("notified", equalTo(true));
     }
 
@@ -58,7 +57,7 @@ class TestResultResourcePostIT extends IntegrationTestBase {
                 .statusCode(HttpStatus.SC_OK)
                 .body("id", equalTo(TEST_HASH))
                 .body("status", equalTo("NEGATIVE"))
-                .body("contact",  nullValue())
+                .body("contact",  equalTo("12345"))
                 .body("notified", equalTo(true));
     }
 
@@ -79,7 +78,7 @@ class TestResultResourcePostIT extends IntegrationTestBase {
                 .statusCode(HttpStatus.SC_OK)
                 .body("id", equalTo(TEST_HASH))
                 .body("status", equalTo("NEGATIVE"))
-                .body("contact",  nullValue())
+                .body("contact",  equalTo("12345"))
                 .body("notified", equalTo(true));
     }
     @Test
@@ -102,6 +101,7 @@ class TestResultResourcePostIT extends IntegrationTestBase {
     private Map<String, String> testResultJson(String status) {
         Map<String, String> jsonMap = new HashMap<>();
         jsonMap.put("status", status);
+        jsonMap.put("contact", "12345");
         return jsonMap;
     }
 

@@ -2,7 +2,6 @@ package de.wirvsvirus.testresult.service;
 
 import de.wirvsvirus.testresult.database.TestResult;
 import de.wirvsvirus.testresult.exception.FalseInformedException;
-import lombok.AllArgsConstructor;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -10,7 +9,6 @@ import static de.wirvsvirus.testresult.database.TestResult.Result.NEGATIVE;
 import static de.wirvsvirus.testresult.database.TestResult.Result.PENDING;
 
 @ApplicationScoped
-@AllArgsConstructor
 public class TestResultService {
 
     public TestResult getTestResult(String id) {
