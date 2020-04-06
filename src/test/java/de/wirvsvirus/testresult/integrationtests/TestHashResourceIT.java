@@ -8,7 +8,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 @QuarkusTest
-public class HashResourceIT extends IntegrationTestBase {
+public class TestHashResourceIT extends IntegrationTestBase {
 
     @Test
     public void testGetHash() {
