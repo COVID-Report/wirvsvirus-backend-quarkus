@@ -1,20 +1,16 @@
-package de.wirvsvirus.testresult;
+package de.wirvsvirus.testresult.integrationtests;
 
-import de.wirvsvirus.testresult.database.TestResult;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static de.wirvsvirus.testresult.database.TestResult.Result.NEGATIVE;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
 
 @QuarkusTest
-class TestResultResourceAuthenticationIT extends BaseIntegrationTest {
+class TestResultResourceAuthenticationIT extends IntegrationTestBase {
 
-    public static final String TEST_RESULT_JSON_BODY = "{ \"hash\" : \"4711\", \"status\": \"PENDING\", \"contact\" : \"foo@bar.com\", \"notified\" : \"false\"}";
+    public static final String TEST_RESULT_JSON_BODY = "{ \"id\" : \"4711\", \"status\": \"PENDING\", \"contact\" : \"foo@bar.com\", \"notified\" : \"false\"}";
 
 
     @Test

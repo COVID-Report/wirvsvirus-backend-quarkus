@@ -1,10 +1,10 @@
 package de.wirvsvirus.testresult.service;
 
-import javax.enterprise.context.ApplicationScoped;
-
 import de.wirvsvirus.testresult.database.TestResult;
 import de.wirvsvirus.testresult.exception.FalseInformedException;
 import lombok.AllArgsConstructor;
+
+import javax.enterprise.context.ApplicationScoped;
 
 import static de.wirvsvirus.testresult.database.TestResult.Result.NEGATIVE;
 import static de.wirvsvirus.testresult.database.TestResult.Result.PENDING;
@@ -13,45 +13,47 @@ import static de.wirvsvirus.testresult.database.TestResult.Result.PENDING;
 @AllArgsConstructor
 public class TestResultService {
 
-	public TestResult getTestResult(String id) {
+    public TestResult getTestResult(String id) {
         return TestResult.findByHash(id);
     }
 
     public TestResult updateTestResult(TestResult updatedTestResult) throws FalseInformedException {
-        TestResult previousTestResult = getTestResult(updatedTestResult.getHash());
+        TestResult previousTestResult = getTestResult(updatedTestResult.getId());
 
         if (previousTestResult == null) {
-			return persistUpdateAndNotifyIfRequired(updatedTestResult);
-		}
-        else {
-            if (testResultChanged(updatedTestResult, previousTestResult)) {
+            return persistUpdateAndNotifyIfRequired(updatedTestResult);
+        } else {
+            if (testResultChanged(previousTestResult, updatedTestResult)) {
                 throw new FalseInformedException(previousTestResult, "Patient wurde über Ergebnis NEGATIVE informiert!");
             }
             previousTestResult.setStatus(updatedTestResult.getStatus());
             previousTestResult.setContact(updatedTestResult.getContact());
-			return persistUpdateAndNotifyIfRequired(previousTestResult);
-		}
-	}
+            return persistUpdateAndNotifyIfRequired(previousTestResult);
+        }
+    }
 
-	private boolean testResultChanged(TestResult updatedTestResult, TestResult previousTestResult) {
-		return (previousTestResult.getStatus() != updatedTestResult.getStatus())
-				&& previousTestResult.getStatus() != PENDING;
-	}
+    protected static boolean testResultChanged(TestResult previousTestResult, TestResult updatedTestResult) {
+        return (previousTestResult.getStatus() != updatedTestResult.getStatus())
+                && previousTestResult.getStatus() != PENDING;
+    }
 
     private TestResult persistUpdateAndNotifyIfRequired(TestResult updatedTestResult) {
         try {
-			notifyIfResultIsNegativeAndNotYetNotified(updatedTestResult);
-		} finally {
+            notifyIfResultIsNegativeAndNotYetNotified(updatedTestResult);
+        } finally {
             updatedTestResult.persistOrUpdate();
         }
         return updatedTestResult;
     }
 
-	private void notifyIfResultIsNegativeAndNotYetNotified(TestResult updatedTestResult) {
-		// trigger notification
-		if (updatedTestResult.getStatus() == NEGATIVE &&
-				!updatedTestResult.isNotified()) {
-			updatedTestResult.setNotified(true); // TODO trigger notification
-		}
-	}
+    private void notifyIfResultIsNegativeAndNotYetNotified(TestResult updatedTestResult) {
+        if (isNotificationRequired(updatedTestResult)) {
+            updatedTestResult.setNotified(true); // TODO trigger notification
+        }
+    }
+
+    protected static boolean isNotificationRequired(TestResult updatedTestResult) {
+        return updatedTestResult.getStatus() == NEGATIVE &&
+                !updatedTestResult.isNotified();
+    }
 }

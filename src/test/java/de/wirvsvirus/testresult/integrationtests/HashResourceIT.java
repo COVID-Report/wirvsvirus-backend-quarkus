@@ -1,7 +1,6 @@
-package de.wirvsvirus.testresult;
+package de.wirvsvirus.testresult.integrationtests;
 
 import io.quarkus.test.junit.QuarkusTest;
-import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +8,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 @QuarkusTest
-public class HashResourceIT extends BaseIntegrationTest {
+public class HashResourceIT extends IntegrationTestBase {
 
     @Test
     public void testGetHash() {

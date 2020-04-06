@@ -1,0 +1,13 @@
+POST http://{{host}}:{{port}}/tests/4713
+Authorization: Basic {{username}} {{userpass}}
+Content-Type: application/json
+
+{
+  "status" : "POSITIVE"
+}
+
+###
+
+GET http://{{host}}:{{port}}/tests/4713
+Content-Type: application/json
+###

@@ -8,7 +8,6 @@ import org.joda.time.LocalDate;
 public class HashCalculator {
 	
 	public static String calculcateId(String sampleId,String name , LocalDate birthday) {
-		
 		return DigestUtils.sha256Hex(sampleId+name+birthday.toString());
 	}
 }

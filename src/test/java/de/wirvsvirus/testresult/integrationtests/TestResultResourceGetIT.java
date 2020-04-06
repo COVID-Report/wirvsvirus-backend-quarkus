@@ -1,10 +1,9 @@
-package de.wirvsvirus.testresult;
+package de.wirvsvirus.testresult.integrationtests;
 
 import de.wirvsvirus.testresult.database.TestResult;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static de.wirvsvirus.testresult.database.TestResult.Result.NEGATIVE;
@@ -12,7 +11,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 @QuarkusTest
-class TestResultResourceGetIT extends BaseIntegrationTest {
+class TestResultResourceGetIT extends IntegrationTestBase {
 
     @Test
     public void testGetEndpoint() {
@@ -33,7 +32,7 @@ class TestResultResourceGetIT extends BaseIntegrationTest {
 
     private void savePreparedTestResult() {
         TestResult savedResult = new TestResult();
-        savedResult.setHash("f00b44");
+        savedResult.setId("f00b44");
         savedResult.setContact("foo@bar.de");
         savedResult.setStatus(NEGATIVE);
         savedResult.setNotified(false);

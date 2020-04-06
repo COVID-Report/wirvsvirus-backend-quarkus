@@ -1,4 +1,4 @@
-package de.wirvsvirus.testresult;
+package de.wirvsvirus.testresult.integrationtests;
 
 import de.wirvsvirus.testresult.database.TestResult;
 import io.quarkus.test.junit.QuarkusTest;
@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.nullValue;
 
 @QuarkusTest
-class TestResultResourcePostIT extends BaseIntegrationTest {
+class TestResultResourcePostIT extends IntegrationTestBase {
 
     public static final String NEGATIVE = "NEGATIVE";
     public static final String POSITIVE = "POSITIVE";
@@ -35,7 +35,7 @@ class TestResultResourcePostIT extends BaseIntegrationTest {
 
                 .then()
                 .statusCode(HttpStatus.SC_OK)
-                .body("hash", equalTo(TEST_HASH))
+                .body("id", equalTo(TEST_HASH))
                 .body("status", equalTo("NEGATIVE"))
                 .body("contact",  nullValue())
                 .body("notified", equalTo(true));
@@ -56,7 +56,7 @@ class TestResultResourcePostIT extends BaseIntegrationTest {
 
                 .then()
                 .statusCode(HttpStatus.SC_OK)
-                .body("hash", equalTo(TEST_HASH))
+                .body("id", equalTo(TEST_HASH))
                 .body("status", equalTo("NEGATIVE"))
                 .body("contact",  nullValue())
                 .body("notified", equalTo(true));
@@ -77,7 +77,7 @@ class TestResultResourcePostIT extends BaseIntegrationTest {
 
                 .then()
                 .statusCode(HttpStatus.SC_OK)
-                .body("hash", equalTo(TEST_HASH))
+                .body("id", equalTo(TEST_HASH))
                 .body("status", equalTo("NEGATIVE"))
                 .body("contact",  nullValue())
                 .body("notified", equalTo(true));
@@ -108,7 +108,7 @@ class TestResultResourcePostIT extends BaseIntegrationTest {
 
     private void saveNegativeTestResult(TestResult.Result status) {
         TestResult savedResult = new TestResult();
-        savedResult.setHash(TEST_HASH);
+        savedResult.setId(TEST_HASH);
         savedResult.setContact("foo@bar.de");
         savedResult.setStatus(status);
         savedResult.setNotified(false);

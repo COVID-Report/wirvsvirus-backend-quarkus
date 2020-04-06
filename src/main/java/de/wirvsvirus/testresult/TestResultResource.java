@@ -1,19 +1,14 @@
 package de.wirvsvirus.testresult;
 
-import javax.annotation.security.RolesAllowed;
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
 import de.wirvsvirus.testresult.database.TestResult;
 import de.wirvsvirus.testresult.exception.FalseInformedException;
 import de.wirvsvirus.testresult.service.TestResultService;
 import lombok.AllArgsConstructor;
+
+import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 @Path("/tests")
 @Produces(MediaType.APPLICATION_JSON)
@@ -26,6 +21,7 @@ public class TestResultResource {
 
     @GET
     @Path("/{testId}")
+    @Produces("application/json")
     public TestResult getResult(@PathParam("testId") String testId) {
         return service.getTestResult(testId);
     }
@@ -33,8 +29,9 @@ public class TestResultResource {
     @POST
     @Path("/{testId}")
     @RolesAllowed("Post")
+    @Produces("application/json")
     public TestResult addTestResult(@PathParam("testId") String testId, TestResult testResult) throws FalseInformedException {
-        testResult.setHash(testId);
+        testResult.setId(testId);
         return service.updateTestResult(testResult);
     }
 }
