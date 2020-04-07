@@ -1,3 +1,6 @@
+
+![Java CI with Maven](https://github.com/COVID-Report/wirvsvirus-backend-quarkus/workflows/Java%20CI%20with%20Maven/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/COVID-Report/wirvsvirus-backend-quarkus/badge.svg?branch=feature/issue3-add-missing-functionality)](https://coveralls.io/github/COVID-Report/wirvsvirus-backend-quarkus?branch=master)
+
 # backend project
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
