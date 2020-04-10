@@ -1,5 +1,5 @@
 
-![Java CI with Maven](https://github.com/COVID-Report/wirvsvirus-backend-quarkus/workflows/Java%20CI%20with%20Maven/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/COVID-Report/wirvsvirus-backend-quarkus/badge.svg?branch=feature/issue3-add-missing-functionality)](https://coveralls.io/github/COVID-Report/wirvsvirus-backend-quarkus?branch=master)
+![Java CI with Maven](https://github.com/COVID-Report/wirvsvirus-backend-quarkus/workflows/Java%20CI%20with%20Maven/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/COVID-Report/wirvsvirus-backend-quarkus/badge.svg?branch=feature/issue3-add-missing-functionality)](https://coveralls.io/github/COVID-Report/wirvsvirus-backend-quarkus?branch=master) [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=com.lapots.breed.judge:judge-rule-engine&metric=alert_status)](https://sonarcloud.io/dashboard?id=COVID-Report_wirvsvirus-backend-quarkus)
 
 # COVID-Report backend
 
