@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
-<project
-        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
-        xmlns="http://maven.apache.org/POM/4.0.0"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.wirvsvirus.testresult</groupId>
     <artifactId>backend-quarkus</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <properties>
         <compiler-plugin.version>3.8.1</compiler-plugin.version>
+        <jacoco-plugin.version>0.8.5</jacoco-plugin.version>
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
@@ -19,7 +19,12 @@
         <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
         <quarkus.platform.version>1.3.1.Final</quarkus.platform.version>
         <surefire-plugin.version>2.22.1</surefire-plugin.version>
-        <jacoco-plugin.version>0.8.5</jacoco-plugin.version>
+
+        <sonar.projectKey>COVID-Report_wirvsvirus-backend-quarkus</sonar.projectKey>
+        <sonar.organization>covid-report</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.login>${SONAR_TOKEN}</sonar.login>
+
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -59,7 +64,6 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-mongodb-panache</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -74,6 +78,14 @@
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.10.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-health</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-metrics</artifactId>
         </dependency>
     </dependencies>
     <build>
@@ -144,7 +156,6 @@
                 <reportSets>
                     <reportSet>
                         <reports>
-                            <!-- select non-aggregate reports -->
                             <report>report</report>
                         </reports>
                     </reportSet>

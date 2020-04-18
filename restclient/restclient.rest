@@ -1,4 +1,8 @@
-POST http://{{host}}:{{port}}/tests/4713
+### calculate a hash code
+GET http://{{host}}:{{port}}/hashes?sampledId=123&name="John Doe"&birthday=1980-02-01
+
+### post a test result
+POST http://{{host}}:{{port}}/tests/25fbe0c5dba33a492391b0f74a516e4e33caa8133bbfac8101965f525af84c7a
 Authorization: Basic {{username}} {{userpass}}
 Content-Type: application/json
 
@@ -6,8 +10,15 @@ Content-Type: application/json
   "status" : "POSITIVE"
 }
 
-###
+### get test result
+GET http://{{host}}:{{port}}/tests/25fbe0c5dba33a492391b0f74a516e4e33caa8133bbfac8101965f525af84c7a
+Accept: application/json
 
-GET http://{{host}}:{{port}}/tests/4713
-Content-Type: application/json
+### Health check
+GET http://{{host}}:{{port}}/health
+
+### Get metrics
+GET http://{{host}}:{{port}}/metrics
+Accept: application/json
+
 ###

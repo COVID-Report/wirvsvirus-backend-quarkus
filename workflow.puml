@@ -1,0 +1,36 @@
+@startuml
+
+title Workflow
+
+rectangle "Patient" {
+actor patient as "Patient"
+component ui as "UI/Browser"
+}
+
+rectangle "Labor" {
+actor labor as "Labor"
+component excel as "Excel"
+}
+
+component cr as "COVID-REPORT"
+
+patient --> labor : Anmeldung (Stammdaten, Kontaktdaten)
+labor -left--> patient: Probenummer
+labor -> labor : Testdurchführung
+labor --> excel : Testergebnis,\n Probenummer,\n Geburtsdatum,\n Name\n Kontaktdaten
+excel -> excel : Hash (Probenummer,\n Geburtsdatum,\n Name)
+excel --> cr : Übermittlung: Testergebnis\n + Hash\n + Kontaktdaten (optional)
+
+cr -> patient: automatische \n Benachrichtigung \n bei negativem \n Testergebnis
+patient --> ui: Probenummer,\n Geburtsdatum,\n Name
+ui --> ui : Hash (Probenummer,\n Geburtsdatum,\n Name)
+ui --> cr: Abfrage Testergebnis mittels Hash
+
+note bottom
+COVID-Report kennt nur den Hash und das Testergebnis
+
+Kontakdaten werden nur zum Versand von SMS oder
+E-Mail verwendet und nicht gespeichert
+end note
+
+@enduml
