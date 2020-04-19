@@ -22,3 +22,7 @@ GET http://{{host}}:{{port}}/metrics
 Accept: application/json
 
 ###
+GET http://{{host}}:{{port}}/health/ready
+Accept: application/json
+
+###
