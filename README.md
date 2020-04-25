@@ -1,5 +1,9 @@
 
+[![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/)
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.png?v=103)](https://opensource.org/licenses/mit-license.php)
+[![Open API](https://img.shields.io/badge/Documentation-Open_API-green)](https://covid-report-be-qa.azurewebsites.net/swagger-ui/)
 ![Java CI with Maven](https://github.com/COVID-Report/wirvsvirus-backend-quarkus/workflows/Java%20CI%20with%20Maven/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/COVID-Report/wirvsvirus-backend-quarkus/badge.svg?branch=feature/issue3-add-missing-functionality)](https://coveralls.io/github/COVID-Report/wirvsvirus-backend-quarkus?branch=master) [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=com.lapots.breed.judge:judge-rule-engine&metric=alert_status)](https://sonarcloud.io/dashboard?id=COVID-Report_wirvsvirus-backend-quarkus)
+
 
 # COVID-Report backend
 
@@ -18,6 +22,7 @@ Benachrichtigung erhalten. Dies führt zu erheblichen Unsicherheiten bei den Pat
 ### Schnittstellen
 * REST API zum Hinterlegen von anonymisierten Testergebnissen (nicht öffentlich, für medizinische Einrichtungen)
 * REST API zum Erfragen von Testergebnissen (anonyme Nutzung durch Web UI)
+* [Beschreibung der Schnittstelle als Open API](https://covid-report-be-qa.azurewebsites.net/swagger-ui/)
 
 ### Funktionen
 Zusätzlich zu den oben genannten APIs soll der Service auch ermöglichen automatisiert Benachrichtigungen an die Patienten zu versenden
