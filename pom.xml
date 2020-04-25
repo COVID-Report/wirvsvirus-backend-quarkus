@@ -23,6 +23,10 @@
         <sonar.organization>covid-report</sonar.organization>
         <sonar.projectKey>COVID-Report_wirvsvirus-backend-quarkus</sonar.projectKey>
         <surefire-plugin.version>2.22.1</surefire-plugin.version>
+        <sendgrid.version>4.4.6</sendgrid.version>
+        <javax-mail.version>1.6.2</javax-mail.version>
+        <okhttp.version>3.4.2</okhttp.version>
+        <commons-lang3.version>3.10</commons-lang3.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -88,6 +92,26 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-openapi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${okhttp.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>${javax-mail.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sendgrid</groupId>
+            <artifactId>sendgrid-java</artifactId>
+            <version>${sendgrid.version}</version>
         </dependency>
     </dependencies>
     <build>

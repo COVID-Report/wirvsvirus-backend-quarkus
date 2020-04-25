@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 public class TestResultResource {
 
     @Inject
-    private TestResultService service;
+    protected TestResultService service;
 
     @GET
     @Path("/{testId}")

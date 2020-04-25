@@ -36,7 +36,7 @@ class TestResultResourcePostIT extends IntegrationTestBase {
                 .statusCode(HttpStatus.SC_OK)
                 .body("id", equalTo(TEST_HASH))
                 .body("status", equalTo("NEGATIVE"))
-                .body("contact",  equalTo("12345"))
+                .body("contact", equalTo("+4912345"))
                 .body("notified", equalTo(true));
     }
 
@@ -57,7 +57,7 @@ class TestResultResourcePostIT extends IntegrationTestBase {
                 .statusCode(HttpStatus.SC_OK)
                 .body("id", equalTo(TEST_HASH))
                 .body("status", equalTo("NEGATIVE"))
-                .body("contact",  equalTo("12345"))
+                .body("contact", equalTo("+4912345"))
                 .body("notified", equalTo(true));
     }
 
@@ -78,9 +78,10 @@ class TestResultResourcePostIT extends IntegrationTestBase {
                 .statusCode(HttpStatus.SC_OK)
                 .body("id", equalTo(TEST_HASH))
                 .body("status", equalTo("NEGATIVE"))
-                .body("contact",  equalTo("12345"))
+                .body("contact", equalTo("+4912345"))
                 .body("notified", equalTo(true));
     }
+
     @Test
     public void testPostPositiveResult_negativeResultAlreadyInDb() {
 
@@ -101,7 +102,7 @@ class TestResultResourcePostIT extends IntegrationTestBase {
     private Map<String, String> testResultJson(String status) {
         Map<String, String> jsonMap = new HashMap<>();
         jsonMap.put("status", status);
-        jsonMap.put("contact", "12345");
+        jsonMap.put("contact", "+4912345");
         return jsonMap;
     }
 
