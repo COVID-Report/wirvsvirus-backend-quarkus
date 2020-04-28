@@ -2,6 +2,7 @@ package de.wirvsvirus.testresult.service;
 
 import de.wirvsvirus.testresult.database.TestResult;
 import de.wirvsvirus.testresult.exception.FalseInformedException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -12,17 +13,17 @@ import static de.wirvsvirus.testresult.database.TestResult.Result.PENDING;
 
 @Slf4j
 @ApplicationScoped
+@RequiredArgsConstructor(onConstructor = @_({@Inject}))
 public class TestResultService {
 
-    @Inject
-    public TestResultPushService testResultPushService;
+    private final TestResultPushService testResultPushService;
 
     public TestResult getTestResult(String id) {
         return TestResult.findByHash(id);
     }
 
     public TestResult updateTestResult(TestResult updatedTestResult) throws FalseInformedException {
-        log.debug("Updating testresult for hash {} with status {}", updatedTestResult.getId(), updatedTestResult.getStatus());
+        log.debug("Updating test result for hash {} with status {}", updatedTestResult.getId(), updatedTestResult.getStatus());
         TestResult previousTestResult = getTestResult(updatedTestResult.getId());
 
         if (previousTestResult == null) {

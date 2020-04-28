@@ -2,11 +2,13 @@ package de.wirvsvirus.testresult.service;
 
 
 import de.wirvsvirus.testresult.configuration.EmailConfiguration;
+import de.wirvsvirus.testresult.configuration.MessageConfiguration;
 import de.wirvsvirus.testresult.configuration.SmsConfiguration;
 import de.wirvsvirus.testresult.database.TestResult;
 import de.wirvsvirus.testresult.exception.MailSendingException;
 import de.wirvsvirus.testresult.exception.SmsSendingException;
 import de.wirvsvirus.testresult.model.PushMessage;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -15,21 +17,14 @@ import javax.inject.Inject;
 
 @Slf4j
 @ApplicationScoped
+@RequiredArgsConstructor(onConstructor = @_({@Inject}))
 public class TestResultPushService {
-    private static final String FROM_VALUE = "Krankenhaus";
-    private static final String NEGATIV_TEXT = "Wir freuen uns Ihnen mitteilen zu können, dass ihr COVID-19 Testergebnis negativ ist. Der Virus konnte bei Ihnen nicht festegestellt werden.";
 
-    @Inject
-    protected EmailConfiguration emailConfiguration;
-
-    @Inject
-    protected SmsConfiguration smsConfiguration;
-
-    @Inject
-    protected SmsServiceProvider smsService;
-
-    @Inject
-    protected EmailService emailService;
+    private final MessageConfiguration messageConfiguration;
+    private final EmailConfiguration emailConfiguration;
+    private final SmsConfiguration smsConfiguration;
+    private final SmsServiceProvider smsService;
+    private final EmailService emailService;
 
     public boolean executePush(TestResult testResult) {
         if (testResult.getStatus() != TestResult.Result.NEGATIVE
@@ -85,8 +80,8 @@ public class TestResultPushService {
 
     private PushMessage createMessage() {
         PushMessage message = new PushMessage();
-        message.setFrom(FROM_VALUE);
-        message.setText(NEGATIV_TEXT);
+        message.setFrom(messageConfiguration.getFrom());
+        message.setText(messageConfiguration.getText());
         return message;
     }
 }

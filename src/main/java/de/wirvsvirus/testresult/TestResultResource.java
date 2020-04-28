@@ -3,6 +3,7 @@ package de.wirvsvirus.testresult;
 import de.wirvsvirus.testresult.database.TestResult;
 import de.wirvsvirus.testresult.exception.FalseInformedException;
 import de.wirvsvirus.testresult.service.TestResultService;
+import lombok.RequiredArgsConstructor;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 
 import javax.annotation.security.RolesAllowed;
@@ -13,10 +14,10 @@ import javax.ws.rs.core.MediaType;
 @Path("/tests")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RequiredArgsConstructor(onConstructor = @_({@Inject}))
 public class TestResultResource {
 
-    @Inject
-    protected TestResultService service;
+    private final TestResultService service;
 
     @GET
     @Path("/{testId}")

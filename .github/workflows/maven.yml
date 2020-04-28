@@ -22,7 +22,7 @@ jobs:
       with:
         mongodb-version: ${{ matrix.mongodb-version }}
     - name: Build with Maven
-      run: mvn -B clean package jacoco:report coveralls:report  --file pom.xml
+      run: mvn -B clean package verify jacoco:report coveralls:report sonar:sonar --file pom.xml
       env:
         COVERALLS_TOKEN: ${{ secrets.coverallsToken }}
         SONAR_TOKEN: ${{ secrets.sonarToken }}
