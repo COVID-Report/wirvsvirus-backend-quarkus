@@ -36,9 +36,6 @@ dependencies {
     implementation 'org.jboss.resteasy:resteasy-jackson2-provider:4.5.3.Final'
     implementation 'org.apache.commons:commons-lang3:3.10'
 
-    testImplementation 'io.quarkus:quarkus-junit5:1.3.1.Final'
-    testImplementation 'io.rest-assured:rest-assured:4.3.0'
-
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
 
@@ -104,4 +101,4 @@ test {
 
 jacocoTestReport {
     dependsOn test
- }
+}
