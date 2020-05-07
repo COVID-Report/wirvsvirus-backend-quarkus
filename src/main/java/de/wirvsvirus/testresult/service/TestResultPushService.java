@@ -13,11 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 @Slf4j
 @ApplicationScoped
-@RequiredArgsConstructor(onConstructor = @_({@Inject}))
+@RequiredArgsConstructor
 public class TestResultPushService {
 
     private final MessageConfiguration messageConfiguration;

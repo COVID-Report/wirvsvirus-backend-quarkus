@@ -7,14 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.microprofile.metrics.annotation.Counted;
 
 import javax.annotation.security.RolesAllowed;
-import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 @Path("/tests")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RequiredArgsConstructor(onConstructor = @_({@Inject}))
+@RequiredArgsConstructor
 public class TestResultResource {
 
     private final TestResultService service;

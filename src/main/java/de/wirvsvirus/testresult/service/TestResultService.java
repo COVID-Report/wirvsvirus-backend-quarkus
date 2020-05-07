@@ -6,14 +6,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 import static de.wirvsvirus.testresult.database.TestResult.Result.NEGATIVE;
 import static de.wirvsvirus.testresult.database.TestResult.Result.PENDING;
 
 @Slf4j
 @ApplicationScoped
-@RequiredArgsConstructor(onConstructor = @_({@Inject}))
+@RequiredArgsConstructor
 public class TestResultService {
 
     private final TestResultPushService testResultPushService;
