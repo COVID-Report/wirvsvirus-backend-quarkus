@@ -19,12 +19,12 @@ repositories {
 
 dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
-    implementation "io.quarkus:quarkus-resteasy:${quarkusPlatformVersion}"
-    implementation "io.quarkus:quarkus-elytron-security-properties-file:${quarkusPlatformVersion}"
-    implementation "io.quarkus:quarkus-mongodb-panache:${quarkusPlatformVersion}"
-    implementation "io.quarkus:quarkus-smallrye-health:${quarkusPlatformVersion}"
-    implementation "io.quarkus:quarkus-smallrye-metrics:${quarkusPlatformVersion}"
-    implementation "io.quarkus:quarkus-smallrye-openapi:${quarkusPlatformVersion}"
+    implementation "io.quarkus:quarkus-resteasy"
+    implementation "io.quarkus:quarkus-elytron-security-properties-file"
+    implementation "io.quarkus:quarkus-mongodb-panache"
+    implementation "io.quarkus:quarkus-smallrye-health"
+    implementation "io.quarkus:quarkus-smallrye-metrics:"
+    implementation "io.quarkus:quarkus-smallrye-openapi:"
     implementation 'io.quarkus:quarkus-resteasy-jsonb'
     implementation 'io.quarkus:quarkus-resteasy'
 
