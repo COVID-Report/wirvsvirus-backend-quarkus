@@ -8,26 +8,24 @@ import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import de.wirvsvirus.testresult.configuration.EmailConfiguration;
+import de.wirvsvirus.testresult.configuration.SendGridConfiguration;
 import de.wirvsvirus.testresult.exception.MailSendingException;
 import de.wirvsvirus.testresult.model.PushMessage;
 import de.wirvsvirus.testresult.service.EmailService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.io.IOException;
 
 @Slf4j
+@RequiredArgsConstructor
 @ApplicationScoped
 public class SendGridMailService implements EmailService {
 
-    @ConfigProperty(name = "sendgrid.apikey", defaultValue = "")
-    protected String sendGridApiKey;
-
-    @Inject
-    protected EmailConfiguration emailConfiguration;
+    private final EmailConfiguration emailConfiguration;
+    private final SendGridConfiguration sendGridConfiguration;
 
     @Override
     public void sendMail(PushMessage message) throws MailSendingException {
@@ -42,7 +40,7 @@ public class SendGridMailService implements EmailService {
     }
 
     private void trySendMail(Mail mail) throws IOException {
-        SendGrid sg = new SendGrid(sendGridApiKey);
+        SendGrid sg = new SendGrid(sendGridConfiguration.getApikey());
         Request request = new Request();
         request.setMethod(Method.POST);
         request.setEndpoint("mail/send");
@@ -60,7 +58,8 @@ public class SendGridMailService implements EmailService {
     }
 
     private void ensureApiKeyIsConfigured() throws MailSendingException {
-        if (StringUtils.isAllBlank(sendGridApiKey)) {
+        if (StringUtils.isAllBlank(sendGridConfiguration.getApikey()) ||
+                "unset".equalsIgnoreCase(sendGridConfiguration.getApikey())) {
             log.warn("No sendgrid apikey configured, try setting sendgrid.apikey!");
             throw new MailSendingException("mailservice not available");
         }

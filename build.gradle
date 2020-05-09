@@ -27,7 +27,7 @@ dependencies {
     implementation 'io.quarkus:quarkus-resteasy'
 
     implementation 'commons-codec:commons-codec:1.13'
-    implementation 'com.squareup.okhttp3:okhttp:3.4.2'
+    implementation 'com.squareup.okhttp3:okhttp:4.6.0'
     implementation 'com.sun.mail:javax.mail:1.6.2'
     implementation 'com.sendgrid:sendgrid-java:4.4.6'
     implementation 'joda-time:joda-time:2.10.5'
@@ -86,8 +86,8 @@ compileTestJava {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 test {

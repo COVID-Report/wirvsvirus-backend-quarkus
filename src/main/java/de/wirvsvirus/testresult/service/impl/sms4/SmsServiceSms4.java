@@ -1,12 +1,13 @@
 package de.wirvsvirus.testresult.service.impl.sms4;
 
 
+import de.wirvsvirus.testresult.configuration.Sms4Configuration;
 import de.wirvsvirus.testresult.exception.SmsSendingException;
 import de.wirvsvirus.testresult.model.PushMessage;
 import de.wirvsvirus.testresult.service.SmsServiceProvider;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.IOException;
@@ -16,38 +17,34 @@ import java.io.IOException;
  */
 @Slf4j
 @ApplicationScoped
+@RequiredArgsConstructor
 public class SmsServiceSms4 implements SmsServiceProvider {
 
     private static final OkHttpClient httpClient = new OkHttpClient();
 
-    @ConfigProperty(name = "sms4.user", defaultValue = "")
-    protected String sms4User;
-
-    @ConfigProperty(name = "sms4.kdnr", defaultValue = "")
-    protected String sms4Kdnr;
-
-    @ConfigProperty(name = "sms4.password", defaultValue = "")
-    protected String sms4Password;
+    private final Sms4Configuration sms4Configuration;
 
     public void sendNegativeResultSms(PushMessage message) throws SmsSendingException {
 
         message.setContact(cleanupNumber(message.getContact()));
         String url = buildUrl(message);
         Request request = new Request.Builder().url(url).build();
-        Call call = httpClient.newCall(request);
-        Response response;
         try {
-            response = call.execute();
+            Call call = httpClient.newCall(request);
+            Response response = call.execute();
             if (!response.isSuccessful()) {
+                log.info("Calling SMS4 not successfull: {}", response);
                 throw new SmsSendingException("Unexpected code " + response);
             }
-            // Get response headers
-            ResponseBody responseBody = response.body();
-            if (!responseBody.string().contains("SMS erfolgreich versendet")) {
-                throw new SmsSendingException("Not successful sent sms " + responseBody.string());
+            // Get response body
+            String responseBodyString = response.body().string();
+            if (!responseBodyString.contains("SMS erfolgreich versendet")) {
+                log.info("Non-positive result received fom SMS4 {}", responseBodyString);
+                throw new SmsSendingException("Not successful sent sms " + responseBodyString);
             }
             log.debug(response.body().string());
         } catch (IOException e) {
+            log.info("Exception while communicating with SMS4", e);
             throw new SmsSendingException(e);
         }
     }
@@ -59,14 +56,14 @@ public class SmsServiceSms4 implements SmsServiceProvider {
     }
 
     private String buildUrl(PushMessage message) {
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(Sms4Constants.BASE_URL).newBuilder();
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(sms4Configuration.getBaseUrl()).newBuilder();
 
-        urlBuilder.addQueryParameter(Sms4Constants.TO, message.getContact());
-        urlBuilder.addQueryParameter(Sms4Constants.USER, sms4User);
-        urlBuilder.addQueryParameter(Sms4Constants.PSW, sms4Password);
-        urlBuilder.addQueryParameter(Sms4Constants.KDNR, sms4Kdnr);
-        urlBuilder.addQueryParameter(Sms4Constants.FROM, message.getFrom());
-        urlBuilder.addQueryParameter(Sms4Constants.TEXT, message.getText());
+        urlBuilder.addQueryParameter(sms4Configuration.getParamTo(), message.getContact());
+        urlBuilder.addQueryParameter(sms4Configuration.getParamUser(), sms4Configuration.getUser());
+        urlBuilder.addQueryParameter(sms4Configuration.getParamPwd(), sms4Configuration.getPassword());
+        urlBuilder.addQueryParameter(sms4Configuration.getParamKdnr(), sms4Configuration.getKdnr());
+        urlBuilder.addQueryParameter(sms4Configuration.getParamFrom(), message.getFrom());
+        urlBuilder.addQueryParameter(sms4Configuration.getParamText(), message.getText());
         return urlBuilder.build().toString();
     }
 }
