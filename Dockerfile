@@ -1,8 +1,6 @@
 FROM openjdk:13-jdk-alpine
 
-RUN apk add git
-
-RUN \
+RUN apk add git && \
     git clone https://github.com/COVID-Report/wirvsvirus-backend-quarkus.git && \
     cd wirvsvirus-backend-quarkus && \
     ./gradlew clean build -Dquarkus.package.uber-jar=true -x test && \
