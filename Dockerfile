@@ -1,13 +1,17 @@
+FROM openjdk:13-jdk-alpine as builder
+
+COPY .  /wirvsvirus-backend-quarkus/
+
+RUN cd wirvsvirus-backend-quarkus && \
+    ./gradlew clean build -Dquarkus.package.uber-jar=true -x test && \
+    cp build/*-runner.jar build/backend-runner.jar
+
+
+# TARGET IMAGE
 FROM openjdk:13-jdk-alpine
 
-RUN apk add git && \
-    git clone https://github.com/COVID-Report/wirvsvirus-backend-quarkus.git && \
-    cd wirvsvirus-backend-quarkus && \
-    ./gradlew clean build -Dquarkus.package.uber-jar=true -x test && \
-    mkdir /appdir && \
-    mv build/*-runner.jar  /appdir/backend-runner.jar && \
-    rm -rf wirvsvirus-backend-quarkus && \
-    rm -rf ~/.gradle && \
-    apk del git
+RUN adduser --no-create-home --disabled-password javarunner
+COPY --chown=javarunner --from=builder /wirvsvirus-backend-quarkus/build/backend-runner.jar /
 
-ENTRYPOINT java -jar /appdir/backend-runner.jar
+USER javarunner
+ENTRYPOINT java -jar backend-runner.jar
