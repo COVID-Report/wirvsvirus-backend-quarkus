@@ -1,0 +1,32 @@
+@startuml
+
+actor pat as "patient"
+participant ui as "Web browser"
+
+actor lab as "hospital/laboratory"
+participant cr as "COVID-Report backend"
+
+== Sample is taken ==
+pat -> lab : registration (standing data, contact details)
+pat -> lab : sample
+pat <- lab : sample id
+
+== Lab tests the sample ==
+lab -> lab : test sample
+lab -> lab : hash of (sample id, birthday, name)
+lab -> cr : upload sample result \n + hash \n + (optional) contact details
+
+== Patient gets informed ==
+
+group if result is negative
+cr -> pat: inform via e-mail or SMS
+end group
+
+pat -> ui  : open COVID-Report UI
+pat -> ui : enter sample id \n + birthday \n + name
+ui -> ui : calulate hash
+ui -> cr: download test result for hash
+ui <- cr : test result
+pat <- ui: test result
+
+@enduml

@@ -1,36 +1,37 @@
 @startuml
 
-title Workflow
+title Workflow - Overview
 
-rectangle "Patient" {
-actor patient as "Patient"
-component ui as "UI/Browser"
+rectangle "patient controlled" {
+actor pat as "patient"
+component ui as "UI running in web browser"
 }
 
-rectangle "Labor" {
-actor labor as "Labor"
-component excel as "Excel"
+rectangle "laboratory controlled" {
+actor labor as "laboratory assistant"
+component excel as "excel sheet"
 }
 
+rectangle "COVID-report controlled" {
 component cr as "COVID-REPORT"
+}
 
-patient --> labor : Anmeldung (Stammdaten, Kontaktdaten)
-labor -left--> patient: Probenummer
-labor -> labor : Testdurchführung
-labor --> excel : Testergebnis,\n Probenummer,\n Geburtsdatum,\n Name\n Kontaktdaten
-excel -> excel : Hash (Probenummer,\n Geburtsdatum,\n Name)
-excel --> cr : Übermittlung: Testergebnis\n + Hash\n + Kontaktdaten (optional)
+pat --> labor : registration (standing data, contact details)
+labor -left-> pat: sample id
+labor -> labor : test sample
+labor --> excel : test result,\n sample id,\n birthday,\n name \n contact details
+excel -> excel : hash (sample id,\n birthday,\n name)
+excel --> cr : transfer: test result\n + hash\n + contact details (optional)
 
-cr -> patient: automatische \n Benachrichtigung \n bei negativem \n Testergebnis
-patient --> ui: Probenummer,\n Geburtsdatum,\n Name
-ui --> ui : Hash (Probenummer,\n Geburtsdatum,\n Name)
-ui --> cr: Abfrage Testergebnis mittels Hash
+cr -> pat: automatic \n notification \n for negative \n test results
+pat --> ui: sample id,\n birthday,\n name
+ui --> ui : hash (sample id,\n birthday,\n name)
+ui --> cr: request test result via hash
 
 note bottom
-COVID-Report kennt nur den Hash und das Testergebnis
+COVID-Report does only know and store hash and test result
 
-Kontakdaten werden nur zum Versand von SMS oder
-E-Mail verwendet und nicht gespeichert
+Contact details are only used to send SMS or e-mail.
 end note
 
 @enduml
