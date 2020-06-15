@@ -1,0 +1,38 @@
+@startuml
+
+title COVID-Report building blocks
+
+component be as "COVID-Report backend"
+database database
+component fe as "COVID-Report fontend"
+component excel as "Laboratory interface (e.g. Excel)"
+
+
+fe --> be : request test results via hash
+
+note right of fe
+Angular application to be used
+by patients to request testing status
+end note
+
+excel -up-> be  : push test results via hash
+
+note right of excel
+Integration into laboratories
+documentation system
+
+(e.g. an enhanced excel sheet or
+an internal application that pushes
+the result to the backend)
+end note
+
+be <-> database
+
+note right of database
+Database holding the test results for hashes.
+No personalized data is stored.
+
+Backend my run on a public cloud
+or be self-hosted in a local computing center.
+end note
+@enduml
